@@ -19,3 +19,28 @@ angr默认对每个架构都有各自的参数放置和返回值取值方式。�
 相关代码在SimCC -- 在`setup_callsite`函数中
 
 如果你不在意函数的实际返回值，你可以调用 `func.perform_call(arg,...)`,然后属性值`func.result_state`和`func.result_path_group`将被填充结果，其实当你直接调用该函数的时候这两个属性也会被赋值。
+
+callable defination:
+
+    def callable(self, addr, concrete_only=False, perform_merge=True, base_state=None, toc=None, cc=None):
+        """
+        A Callable is a representation of a function in the binary that can be interacted with like a native python
+        function.
+
+        :param addr:            The address of the function to use
+        :param concrete_only:   Throw an exception if the execution splits into multiple states
+        :param perform_merge:   Merge all result states into one at the end (only relevant if concrete_only=False)
+        :param base_state:      The state from which to do these runs
+        :param toc:             The address of the table of contents for ppc64
+        :param cc:              The SimCC to use for a calling convention
+        :returns:               A Callable object that can be used as a interface for executing guest code like a
+                                python function.
+        :rtype:                 angr.surveyors.caller.Callable
+        """
+        return Callable(self.project,
+                        addr=addr,
+                        concrete_only=concrete_only,
+                        perform_merge=perform_merge,
+                        base_state=base_state,
+                        toc=toc,
+                        cc=cc)
